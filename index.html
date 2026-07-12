@@ -4,38 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- FilePress V8: V7 functionality preserved; targeted dark-mode readability and mobile usability fixes added -->
-<title>FilePress — Free Online PDF Tools | Merge, Compress, Convert & Edit PDF</title>
-<meta name="description" content="Use 20 free online PDF tools with FilePress. Merge, split, compress, edit, convert, sign, protect PDFs, convert images to PDF, PDF to JPG, and more directly in your browser.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://pankajj-yadav.github.io/filepress/">
-
-<meta property="og:type" content="website">
-<meta property="og:title" content="FilePress — Free Online PDF Tools">
-<meta property="og:description" content="Free browser-based PDF tools to merge, split, compress, edit, convert, sign, protect PDFs, convert images to PDF, PDF to JPG, and more.">
-<meta property="og:url" content="https://pankajj-yadav.github.io/filepress/">
-<meta property="og:site_name" content="FilePress">
-
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="FilePress — Free Online PDF Tools">
-<meta name="twitter:description" content="20 free browser-based PDF tools for merging, splitting, compressing, editing, converting, signing and protecting PDFs.">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "FilePress",
-  "url": "https://pankajj-yadav.github.io/filepress/",
-  "description": "A free browser-based collection of 20 PDF tools for merging, splitting, compressing, editing, converting, signing and protecting PDF files.",
-  "applicationCategory": "UtilitiesApplication",
-  "operatingSystem": "Any",
-  "isAccessibleForFree": true,
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
-  }
-}
-</script>
+<title>FilePress — PDF Tools</title>
 <!-- FilePress improved V2: stronger translation structure, DOCX/PDF text reconstruction, table extraction, spreadsheet pagination, and PPT overflow handling. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600&family=Dancing+Script:wght@500;700&display=swap" rel="stylesheet">
@@ -2258,5 +2227,94 @@ async function downloadEditedPdf(){
 </script>
 
 <!-- FilePress V5: six conversion tools reliability pass; generated 2026-07-12 -->
+
+
+<!-- V10: compact post-download feedback popup -->
+<style>
+#fpFeedbackOverlay{position:fixed;inset:0;z-index:99999;display:none;align-items:center;justify-content:center;padding:18px;background:rgba(0,0,0,.46);backdrop-filter:blur(3px)}
+#fpFeedbackOverlay.show{display:flex}
+.fp-feedback-card{position:relative;width:min(92vw,390px);max-height:88vh;overflow:auto;padding:20px;border-radius:18px;background:#fff;color:#171717;border:1px solid rgba(120,18,28,.18);box-shadow:0 20px 60px rgba(0,0,0,.24);text-align:center}
+.fp-feedback-close{position:absolute;top:9px;right:10px;width:34px;height:34px;border:0;border-radius:50%;background:transparent;color:#666;font-size:24px;line-height:1;cursor:pointer}
+.fp-feedback-card h3{margin:2px 30px 6px;font-size:1.2rem;color:#231f20}
+.fp-feedback-card p{margin:0 0 13px;color:#666;font-size:.9rem;line-height:1.45}
+.fp-stars{display:flex;justify-content:center;gap:5px;margin:7px 0 13px}
+.fp-star{border:0;background:transparent;padding:3px;font-size:31px;line-height:1;color:#aaa;cursor:pointer;transition:transform .15s,color .15s}
+.fp-star.active{color:#8f1824}.fp-star:hover{transform:scale(1.1)}
+#fpFeedbackText{width:100%;min-height:86px;max-height:150px;resize:vertical;box-sizing:border-box;border:1px solid #d7d1d2;border-radius:12px;padding:11px 12px;background:#fff;color:#1c1c1c;font:inherit;outline:none}
+#fpFeedbackText:focus{border-color:#8f1824;box-shadow:0 0 0 3px rgba(143,24,36,.12)}
+.fp-feedback-submit{width:100%;margin-top:11px;min-height:44px;border:0;border-radius:12px;background:#8f1824;color:#fff;font-weight:700;font-size:.96rem;cursor:pointer;box-shadow:0 7px 18px rgba(143,24,36,.22)}
+.fp-feedback-submit:disabled{opacity:.65;cursor:wait}
+.fp-feedback-later{margin-top:8px;border:0;background:transparent;color:#6d6264;font-weight:600;cursor:pointer;padding:8px 12px}
+.fp-feedback-note{min-height:18px;margin-top:6px!important;font-size:.8rem!important}
+.fp-thanks{display:none;padding:10px 0 4px}.fp-thanks .fp-check{font-size:42px;color:#8f1824}.fp-thanks h3{margin-top:6px}
+[data-theme="dark"] .fp-feedback-card,body.dark-mode .fp-feedback-card{background:#171314;color:#f8f4f4;border-color:#6f1a23;box-shadow:0 20px 60px rgba(0,0,0,.55)}
+[data-theme="dark"] .fp-feedback-card h3,body.dark-mode .fp-feedback-card h3{color:#fff}
+[data-theme="dark"] .fp-feedback-card p,body.dark-mode .fp-feedback-card p{color:#cfc3c5}
+[data-theme="dark"] .fp-feedback-close,body.dark-mode .fp-feedback-close{color:#e8dfe0}
+[data-theme="dark"] #fpFeedbackText,body.dark-mode #fpFeedbackText{background:#211b1c;color:#fff;border-color:#604248}
+[data-theme="dark"] .fp-feedback-later,body.dark-mode .fp-feedback-later{color:#d9cdd0}
+@media(max-width:480px){.fp-feedback-card{width:min(94vw,360px);padding:18px 16px;border-radius:16px}.fp-star{font-size:29px}}
+</style>
+<div id="fpFeedbackOverlay" role="dialog" aria-modal="true" aria-labelledby="fpFeedbackTitle">
+  <div class="fp-feedback-card">
+    <button class="fp-feedback-close" type="button" aria-label="Close feedback">×</button>
+    <div id="fpFeedbackFormView">
+      <h3 id="fpFeedbackTitle">How was your experience?</h3>
+      <p>Your quick feedback helps us make FilePress better.</p>
+      <div class="fp-stars" aria-label="Rating out of 5">
+        <button class="fp-star" type="button" data-rating="1" aria-label="1 star">★</button><button class="fp-star" type="button" data-rating="2" aria-label="2 stars">★</button><button class="fp-star" type="button" data-rating="3" aria-label="3 stars">★</button><button class="fp-star" type="button" data-rating="4" aria-label="4 stars">★</button><button class="fp-star" type="button" data-rating="5" aria-label="5 stars">★</button>
+      </div>
+      <textarea id="fpFeedbackText" maxlength="1000" placeholder="Suggestion or feedback (optional)"></textarea>
+      <button id="fpFeedbackSubmit" class="fp-feedback-submit" type="button">Submit Feedback</button>
+      <button id="fpFeedbackLater" class="fp-feedback-later" type="button">I'll Do It Later</button>
+      <p id="fpFeedbackNote" class="fp-feedback-note"></p>
+    </div>
+    <div id="fpFeedbackThanks" class="fp-thanks">
+      <div class="fp-check">✓</div><h3>Thank you!</h3><p>Your feedback helps us improve FilePress.</p>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  const overlay=document.getElementById('fpFeedbackOverlay'), stars=[...document.querySelectorAll('.fp-star')], text=document.getElementById('fpFeedbackText'), submit=document.getElementById('fpFeedbackSubmit'), later=document.getElementById('fpFeedbackLater'), closeBtn=document.querySelector('.fp-feedback-close'), note=document.getElementById('fpFeedbackNote'), formView=document.getElementById('fpFeedbackFormView'), thanks=document.getElementById('fpFeedbackThanks');
+  let rating=0, timer=null, lastShown=0;
+  function paint(){stars.forEach(s=>s.classList.toggle('active',Number(s.dataset.rating)<=rating));}
+  stars.forEach(s=>s.addEventListener('click',()=>{rating=Number(s.dataset.rating);paint();note.textContent='';}));
+  function hide(){overlay.classList.remove('show');clearTimeout(timer);}
+  function show(){if(localStorage.getItem('filepress_feedback_submitted')==='1')return; const now=Date.now(); if(now-lastShown<8000)return; lastShown=now; formView.style.display='block';thanks.style.display='none';note.textContent='';overlay.classList.add('show');}
+  closeBtn.addEventListener('click',hide); later.addEventListener('click',hide);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)hide();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')hide();});
+  submit.addEventListener('click',async()=>{
+    if(!rating){note.textContent='Please select a star rating.';return;}
+    submit.disabled=true;submit.textContent='Sending…';note.textContent='';
+    try{
+      const fd=new FormData();
+      fd.append('access_key','ad02f727-1135-4e2c-adcd-ed0e6c39806c');
+      fd.append('subject','New FilePress feedback - '+rating+'/5 stars');
+      fd.append('from_name','FilePress Feedback');
+      fd.append('Rating',rating+' / 5');
+      fd.append('Feedback',text.value.trim()||'No written feedback');
+      fd.append('Page',location.href);
+      const res=await fetch('https://api.web3forms.com/submit',{method:'POST',body:fd});
+      const data=await res.json().catch(()=>({success:false,message:'Invalid server response'}));
+      if(!res.ok || !data.success) throw new Error(data.message||'Could not send feedback');
+      localStorage.setItem('filepress_feedback_submitted','1');
+      formView.style.display='none';thanks.style.display='block';
+      setTimeout(hide,2200);
+    }catch(err){note.textContent='Could not send right now. Please try again.';}
+    finally{submit.disabled=false;submit.textContent='Submit Feedback';}
+  });
+  function scheduleFeedback(){clearTimeout(timer);timer=setTimeout(show,900);}
+  document.addEventListener('click',function(e){
+    const a=e.target.closest && e.target.closest('a[download], .download-link, .download-btn');
+    if(a) scheduleFeedback();
+  },true);
+  const nativeClick=HTMLAnchorElement.prototype.click;
+  HTMLAnchorElement.prototype.click=function(){const isDownload=this.hasAttribute('download');nativeClick.call(this);if(isDownload)scheduleFeedback();};
+  window.filePressShowFeedback=scheduleFeedback;
+})();
+</script>
+
 </body>
 </html>
