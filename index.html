@@ -15,7 +15,9 @@
 <meta property="og:image" content="https://pankajj-yadav.github.io/filepress/filepress-logo.png">
 <link rel="canonical" href="https://pankajj-yadav.github.io/filepress/">
 <link rel="icon" type="image/png" href="filepress-logo.png">
-<link rel="apple-touch-icon" href="filepress-logo.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#9C182C">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -379,6 +381,77 @@
   .mini-toolbar input[type="color"]{ width:32px; height:28px; border:1px solid var(--line); padding:0; }
   .mini-toolbar input[type="number"]{ width:60px; padding:6px; border:1px solid var(--line); }
 
+
+  /* ---------- FilePress Android app download section ---------- */
+  .app-download-section{
+    max-width:1100px;
+    margin:0 auto 70px;
+    padding:0 40px;
+  }
+  .app-download-card{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:28px;
+    padding:34px 38px;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:
+      radial-gradient(circle at 90% 20%, rgba(240,68,82,.14), transparent 38%),
+      var(--card-bg);
+    box-shadow:0 12px 35px rgba(20,20,30,.07);
+  }
+  .app-download-copy{max-width:650px;}
+  .app-download-label{
+    display:inline-block;
+    margin-bottom:9px;
+    color:var(--seal);
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+  .app-download-card h2{
+    margin:0 0 9px;
+    font-size:28px;
+    line-height:1.2;
+    color:var(--ink);
+  }
+  .app-download-card p{
+    margin:0;
+    color:var(--ink-soft);
+    font-size:14px;
+    line-height:1.6;
+  }
+  .app-download-btn{
+    flex-shrink:0;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:9px;
+    min-width:170px;
+    padding:15px 22px;
+    border-radius:30px;
+    background:var(--seal);
+    color:#fff;
+    text-decoration:none;
+    font-weight:800;
+    font-size:14px;
+    box-shadow:0 10px 24px rgba(240,68,82,.28);
+    transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
+  }
+  .app-download-btn:hover{
+    background:var(--seal-dark);
+    transform:translateY(-2px);
+    box-shadow:0 14px 28px rgba(240,68,82,.34);
+  }
+  @media(max-width:700px){
+    .app-download-section{padding:0 20px;margin-bottom:50px;}
+    .app-download-card{padding:27px 22px;flex-direction:column;text-align:center;}
+    .app-download-card h2{font-size:24px;}
+    .app-download-btn{width:100%;}
+  }
+
   footer{
     padding:30px 40px; border-top:1px solid var(--line); text-align:center;
     font-family:'Inter', sans-serif; font-size:12px; color:var(--ink-soft);
@@ -687,6 +760,20 @@ body.dark-mode .download-btn:active {
   </div>
 </div>
 
+
+<section class="app-download-section reveal" aria-label="Download FilePress Android app">
+  <div class="app-download-card">
+    <div class="app-download-copy">
+      <span class="app-download-label">FilePress for Android</span>
+      <h2>For a better experience, get the FilePress app</h2>
+      <p>Access all your PDF tools faster and more conveniently on your Android phone.</p>
+    </div>
+    <a class="app-download-btn" href="FilePress.apk" download="FilePress.apk" aria-label="Download FilePress Android app">
+      ↓ Download App
+    </a>
+  </div>
+</section>
+
 <footer id="about">
   <div style="max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px;text-align:left;padding-bottom:26px;">
     <div>
@@ -826,6 +913,23 @@ function closeTool(){
   currentTool = null;
   if(lastDownloadUrl){ URL.revokeObjectURL(lastDownloadUrl); lastDownloadUrl = null; }
 }
+
+(function setupAndroidBackHandling(){
+  try{
+    history.replaceState({ filepressRoot:true }, '', location.href);
+    history.pushState({ filepressGuard:true }, '', location.href);
+    window.addEventListener('popstate', function(){
+      const overlay = document.getElementById('overlay');
+      if(overlay && overlay.classList.contains('active')){
+        closeTool();
+        history.pushState({ filepressGuard:true }, '', location.href);
+      }
+    });
+  }catch(e){
+    console.warn('Back handling unavailable', e);
+  }
+})();
+
 document.getElementById('overlay').addEventListener('click', (e)=>{
   if(e.target.id === 'overlay') closeTool();
 });
